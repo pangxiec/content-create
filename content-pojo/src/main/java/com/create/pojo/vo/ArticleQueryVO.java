@@ -1,0 +1,25 @@
+package com.create.pojo.vo;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+/**
+ * @author xmy
+ * @data 2021/2/1 20:51
+ */
+@Data
+public class ArticleQueryVO {
+
+    @ApiModelProperty(value = "作者Id")
+    private String authorId;
+
+    @ApiModelProperty(value = "文章标题")
+    private String title;
+
+    @ApiModelProperty(value = "查询开始时间", example = "2021-02-01 10:10:10")
+    private String begin;
+
+    @ApiModelProperty(value = "查询结束时间", example = "2021-02-02 10:10:10")
+    private String end;
+
+}
