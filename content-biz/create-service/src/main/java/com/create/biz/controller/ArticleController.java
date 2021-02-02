@@ -45,5 +45,24 @@ public class ArticleController {
         return R.ok().message("创作成功");
     }
 
+    @ApiOperation("删除帖子")
+    @PostMapping("/deleteArticle/{id}")
+    public R deleteArticle(@PathVariable("id") Long id){
+        boolean b = articleService.removeById(id);
+        if (b){
+            return R.ok().message("删除成功");
+        }
+        return R.error().message("删除失败");
+    }
+
+    @ApiOperation("修改帖子")
+    @PostMapping("/updateArticle/{id}")
+    public R updateArticle(@PathVariable("id") Long id,@RequestBody ArticleVO articleVO){
+        ArticleDto articleDto = new ArticleDto();
+        BeanUtils.copyProperties(articleVO,articleDto);
+        articleService.updateArticleById(articleDto);
+        return R.ok();
+    }
+
 
 }

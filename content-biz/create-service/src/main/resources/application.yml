@@ -8,6 +8,8 @@ content:
   description: 创作分享
 
 spring:
+  application:
+    name: create-service
   profiles:
     active: test
   jackson:

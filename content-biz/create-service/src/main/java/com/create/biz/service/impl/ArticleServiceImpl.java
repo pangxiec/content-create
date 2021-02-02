@@ -69,8 +69,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleDto.setAuthorId("xmy");
         //TODO 得到当前登录用户
         Article article = new Article();
-        //article.setAuthorId("xmy");
         BeanUtils.copyProperties(articleDto,article);
+        //TODO 创作之后需要审核
         articleMapper.insert(article);
+    }
+
+    @Override
+    public void updateArticleById(ArticleDto articleDto) {
+        //TODO 修改也需要审核
+
     }
 }

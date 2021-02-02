@@ -1,7 +1,7 @@
 package com.create.biz.oss.controller;
 
 import com.create.biz.oss.service.OssService;
-import com.create.common.util.R;
+import com.create.common.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.CrossOrigin;

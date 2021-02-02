@@ -22,4 +22,6 @@ public interface ArticleService extends IService<Article> {
     PageResult<Article> selectPage(long current, long limit, ArticleQueryVO articleQueryVO);
 
     void insertArticle(ArticleDto articleDto);
+
+    void updateArticleById(ArticleDto articleDto);
 }

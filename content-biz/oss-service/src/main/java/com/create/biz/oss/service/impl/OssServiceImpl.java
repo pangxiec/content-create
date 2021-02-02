@@ -2,6 +2,7 @@ package com.create.biz.oss.service.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.create.biz.oss.service.OssService;
 import com.create.biz.oss.utils.ConstantPropertiesUtils;
 import org.joda.time.DateTime;
@@ -33,7 +34,9 @@ public class OssServiceImpl implements OssService {
             fileName = uuid + fileName;
             String datePath = new DateTime().toString("yyyy/MM/dd");
             fileName = datePath + "/" + fileName;
-            ossClient.putObject(bucketName, fileName, inputStream);
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType("image/jpg");
+            ossClient.putObject(bucketName, fileName, inputStream,objectMetadata);
             ossClient.shutdown();
 
             String url = "https://" + bucketName + "." + endpoint + "/" + fileName;
