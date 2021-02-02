@@ -1,6 +1,6 @@
 package com.create.biz.controller;
 
-import com.create.common.util.R;
+import com.create.common.utils.R;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 

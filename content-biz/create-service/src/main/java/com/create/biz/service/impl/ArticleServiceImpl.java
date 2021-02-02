@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.create.biz.service.ArticleService;
-import com.create.common.util.PageResult;
+import com.create.common.utils.PageResult;
 import com.create.mapper.ArticleMapper;
 import com.create.pojo.domain.Article;
 import com.create.pojo.dto.ArticleDto;
@@ -28,6 +28,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public PageResult<Article> selectPage(long current, long limit, ArticleQueryVO articleQueryVO) {
+
         Page<Article> articlePage = new Page<>(current,limit);
 
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();

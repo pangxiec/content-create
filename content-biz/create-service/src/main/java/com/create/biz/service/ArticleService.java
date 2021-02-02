@@ -1,7 +1,7 @@
 package com.create.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.create.common.util.PageResult;
+import com.create.common.utils.PageResult;
 import com.create.pojo.domain.Article;
 import com.create.pojo.dto.ArticleDto;
 import com.create.pojo.vo.ArticleQueryVO;
