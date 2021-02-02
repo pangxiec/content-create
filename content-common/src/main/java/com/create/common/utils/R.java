@@ -1,4 +1,4 @@
-package com.create.common.util;
+package com.create.common.utils;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

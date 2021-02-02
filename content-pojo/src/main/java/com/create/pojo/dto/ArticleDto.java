@@ -1,7 +1,7 @@
 package com.create.pojo.dto;
 
-import com.create.pojo.enums.AuditStatusEnum;
-import com.create.pojo.enums.CategoryEnum;
+import com.create.common.enums.AuditStatusEnum;
+import com.create.common.enums.CategoryEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

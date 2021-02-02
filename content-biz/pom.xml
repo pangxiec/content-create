@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>common-config</artifactId>
+            <artifactId>content-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

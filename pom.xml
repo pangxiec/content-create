@@ -8,7 +8,6 @@
         <module>content-pojo</module>
         <module>content-dao</module>
         <module>content-biz</module>
-        <module>content-test</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

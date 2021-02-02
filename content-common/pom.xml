@@ -11,10 +11,6 @@
 
     <artifactId>content-common</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>common-util</module>
-        <module>common-config</module>
-    </modules>
 
     <dependencies>
         <dependency>

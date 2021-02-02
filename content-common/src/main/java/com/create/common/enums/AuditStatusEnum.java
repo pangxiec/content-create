@@ -1,4 +1,4 @@
-package com.create.pojo.enums;
+package com.create.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

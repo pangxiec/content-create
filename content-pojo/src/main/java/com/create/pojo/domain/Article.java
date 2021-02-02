@@ -1,8 +1,8 @@
 package com.create.pojo.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.create.pojo.enums.AuditStatusEnum;
-import com.create.pojo.enums.CategoryEnum;
+import com.create.common.enums.AuditStatusEnum;
+import com.create.common.enums.CategoryEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -29,6 +29,9 @@ public class Article implements Serializable {
 
     @ApiModelProperty(value = "作者ID")
     private String authorId;
+
+    @ApiModelProperty(value = "作者昵称")
+    private String authorName;
 
     @ApiModelProperty(value = "文章标题")
     private String title;
