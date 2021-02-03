@@ -48,5 +48,17 @@ public interface UserService extends IService<User> {
      */
     PageResult<User> selectPage(long current, long limit, UserQueryDTO userQueryDTO);
 
+    /**
+     * 更改用户信息
+     * @param userInfoDTO
+     * @return
+     */
     Boolean updateUserInfo(UserInfoDTO userInfoDTO);
+
+    /**
+     * 统计某天注册人数
+     * @param day
+     * @return
+     */
+    Integer countRegisterDay(String day);
 }

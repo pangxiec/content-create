@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ucenter-service
+    name: statistics-service
   # mysql 数据库连接
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -15,6 +15,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
+  #Nacos 服务地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
 
 #mybatis日志
 mybatis-plus:

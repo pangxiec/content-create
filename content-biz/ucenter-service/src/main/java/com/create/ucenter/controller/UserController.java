@@ -96,4 +96,11 @@ public class UserController {
         }
         return R.error();
     }
+
+    @ApiOperation(value = "统计某一天的注册人数")
+    @GetMapping("/registerCount/{day}")
+    public R registerCount(@PathVariable("day") String day){
+        Integer count = userService.countRegisterDay(day);
+        return R.ok().data("registerCount",count);
+    }
 }

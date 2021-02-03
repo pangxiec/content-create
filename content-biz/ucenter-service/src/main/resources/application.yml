@@ -16,9 +16,16 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+  #Nacos 服务地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
 #mybatis日志
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: mapper/**/*Mapper.xml
 
 

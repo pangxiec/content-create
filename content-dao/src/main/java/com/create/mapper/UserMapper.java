@@ -13,4 +13,10 @@ import com.create.pojo.domain.User;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 查询某天的注册人数
+     * @param day
+     * @return
+     */
+    Integer selectRegisterCount(String day);
 }

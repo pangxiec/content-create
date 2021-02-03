@@ -138,4 +138,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return false;
     }
+
+    @Override
+    public Integer countRegisterDay(String day) {
+        Integer count = baseMapper.selectRegisterCount(day);
+        return count;
+    }
 }
