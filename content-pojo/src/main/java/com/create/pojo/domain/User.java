@@ -1,9 +1,6 @@
 package com.create.pojo.domain;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,11 +25,11 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户id")
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @ApiModelProperty(value = "用户名")
-    private String username;
+    private String nikeName;
 
     @ApiModelProperty(value = "密码")
     private String password;
@@ -47,10 +44,12 @@ public class User implements Serializable {
     private String description;
 
     @ApiModelProperty(value = "是否禁用 1（true）已禁用，  0（false）未禁用")
-    private Integer isDisabled;
+    private Boolean isDisabled;
 
     @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
-    private Integer isDeleted;
+    @TableField(fill = FieldFill.INSERT)
+    @TableLogic
+    private Boolean isDeleted;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

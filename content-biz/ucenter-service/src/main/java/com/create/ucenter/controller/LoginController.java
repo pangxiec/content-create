@@ -1,4 +1,4 @@
-package com.create.biz.controller;
+package com.create.ucenter.controller;
 
 import com.create.common.utils.R;
 import io.swagger.annotations.Api;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "登录管理")
 @RestController
-@RequestMapping("/creation/user")
+@RequestMapping("/creation/adminuser")
 @CrossOrigin
 public class LoginController {
 
@@ -21,7 +21,7 @@ public class LoginController {
 
     @GetMapping("/info")
     public R info(){
-        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/02/00faf414b1de45088a4ce7416cb425131.jpg");
     }
 
 }

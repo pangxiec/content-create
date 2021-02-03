@@ -25,7 +25,7 @@ public class JwtUtils {
      * @param nickname
      * @return
      */
-    public static String getJwtToken(String id, String nickname){
+    public static String getJwtToken(Long id, String nickname){
 
         String JwtToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
