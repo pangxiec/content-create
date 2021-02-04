@@ -23,8 +23,7 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
   type-aliases-package: com.create.pojo
-  mapper-locations:
-    - classpath*:mapper/*.xml
+  mapper-locations: mapper/**/*Mapper.xml
   # mybatis 日志
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

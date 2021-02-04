@@ -85,4 +85,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //TODO 修改也需要审核
 
     }
+
+    @Override
+    public Integer createCount(String day) {
+        Integer count = articleMapper.createCount(day);
+        return count;
+    }
 }

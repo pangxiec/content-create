@@ -21,14 +21,14 @@ import javax.annotation.Resource;
  */
 @Api(tags = "文章管理")
 @RestController
-@RequestMapping("/creation")
+@RequestMapping("/creation/article")
 public class ArticleController {
 
     @Resource
     private ArticleService articleService;
 
     @ApiOperation("分页查询贴子")
-    @GetMapping("/article/{current}/{limit}")
+    @GetMapping("/{current}/{limit}")
     public R selectPage(@PathVariable("current") long current,
                         @PathVariable("limit") long limit,
                         @Validated ArticleQueryVO articleQueryVO){
@@ -62,6 +62,13 @@ public class ArticleController {
         BeanUtils.copyProperties(articleVO,articleDto);
         articleService.updateArticleById(articleDto);
         return R.ok();
+    }
+
+    @ApiOperation(value = "统计某一天的文章数")
+    @GetMapping("/createCount/{day}")
+    public R createCount(@PathVariable("day") String day){
+        Integer count = articleService.createCount(day);
+        return R.ok().data("createCount",count);
     }
 
 

@@ -24,4 +24,6 @@ public interface ArticleService extends IService<Article> {
     void insertArticle(ArticleDto articleDto);
 
     void updateArticleById(ArticleDto articleDto);
+
+    Integer createCount(String day);
 }

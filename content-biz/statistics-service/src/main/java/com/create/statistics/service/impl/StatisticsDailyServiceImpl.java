@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.create.common.utils.R;
 import com.create.mapper.StatisticsDailyMapper;
 import com.create.pojo.domain.StatisticsDaily;
+import com.create.statistics.client.ArticleClient;
 import com.create.statistics.client.UcenterClient;
 import com.create.statistics.service.StatisticsDailyService;
 import org.apache.commons.lang3.RandomUtils;
@@ -23,6 +24,9 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
     @Resource
     private UcenterClient ucenterClient;
 
+    @Resource
+    private ArticleClient articleClient;
+
 
     @Override
     public void createStatisticsByDay(String day) {
@@ -35,12 +39,16 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         R registerR = ucenterClient.registerCount(day);
         Integer registerCount = (Integer)registerR.getData().get("registerCount");
 
+        R createR = articleClient.createCount(day);
+        Integer createCount = (Integer)createR.getData().get("createCount");
+
         StatisticsDaily statisticsDaily = new StatisticsDaily();
         //注册人数
         statisticsDaily.setRegisterNum(registerCount);
+        //文章数
+        statisticsDaily.setCreateNum(createCount);
         //统计日期
         statisticsDaily.setDateCalculated(day);
-        statisticsDaily.setCreateNum(RandomUtils.nextInt(100,200));
         statisticsDaily.setLoginNum(RandomUtils.nextInt(100,200));
 
         baseMapper.insert(statisticsDaily);
