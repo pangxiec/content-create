@@ -1,5 +1,6 @@
 package com.create.statistics.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.create.common.utils.R;
@@ -25,6 +26,11 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
 
     @Override
     public void createStatisticsByDay(String day) {
+        //在添加之前先删除
+        QueryWrapper<StatisticsDaily> wrapper = new QueryWrapper<>();
+        wrapper.eq("date_calculated",day);
+        baseMapper.delete(wrapper);
+
         //远程调用得到某一天的注册人数
         R registerR = ucenterClient.registerCount(day);
         Integer registerCount = (Integer)registerR.getData().get("registerCount");
