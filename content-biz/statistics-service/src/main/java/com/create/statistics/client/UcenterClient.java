@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient("ucenter-service")
 public interface UcenterClient {
 
+    /**
+     * 远程调用 统计一天的在线人数
+     * @param day
+     * @return
+     */
     @GetMapping("/creation/user/registerCount/{day}")
     public R registerCount(@PathVariable("day") String day);
 }

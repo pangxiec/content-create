@@ -79,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setNikeName(nikeName);
         user.setPassword(MD5Utils.encrypt(password));
         user.setIsDisabled(false);
-        user.setAvatar("https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/02/00faf414b1de45088a4ce7416cb425131.jpg");
+        user.setAvatar("https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/04/845ea08910c047ff972abb6d3349164a15.png");
         this.save(user);
 
     }
