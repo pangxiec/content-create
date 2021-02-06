@@ -43,8 +43,8 @@ spring:
 
 aliyun:
   regionId: cn-shanghai
-  accessKeyId: LTAI4GC7apLpn2BNBCX39wR3
-  secret: 2mENYLYnCgkB7CzRiuWZR45K6njsPA
+  accessKeyId: 
+  secret: 
   labelList:
     - spam
     - politics
