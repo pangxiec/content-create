@@ -6,6 +6,7 @@ import com.create.biz.utils.AliAuditUtil;
 import com.create.common.enums.SuggestionEnum;
 import com.create.biz.service.AuditArticleService;
 import com.create.mapper.AuditArticleMapper;
+import com.create.mapper.SensitiveWordMapper;
 import com.create.pojo.domain.Article;
 import com.create.pojo.domain.AuditArticle;
 import com.create.pojo.domain.audit.textaudit.Detail;

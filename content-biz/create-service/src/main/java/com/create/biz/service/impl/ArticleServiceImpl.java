@@ -6,12 +6,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.create.biz.helper.ArticleAuditNotifyHelper;
 import com.create.biz.service.ArticleService;
+import com.create.biz.utils.SensitiveWordInit;
+import com.create.biz.utils.SensitiveWordUtil;
 import com.create.common.enums.AuditStatusEnum;
 import com.create.common.enums.SuggestionEnum;
 import com.create.common.handler.ContentException;
 import com.create.common.utils.PageResult;
 import com.create.mapper.ArticleMapper;
+import com.create.mapper.SensitiveWordMapper;
 import com.create.pojo.domain.Article;
+import com.create.pojo.domain.SensitiveWord;
 import com.create.pojo.dto.ArticleDTO;
 import com.create.pojo.dto.ChangeAuditStatusDto;
 import com.create.pojo.vo.ArticleQueryVO;
@@ -22,7 +26,10 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author xmy
@@ -36,6 +43,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Resource
     ArticleAuditNotifyHelper articleAuditNotifyHelper;
+
+    @Resource
+    private SensitiveWordMapper sensitiveWordMapper;
 
     @Override
     public PageResult<Article> selectPage(long current, long limit, ArticleQueryVO articleQueryVO) {
@@ -69,10 +79,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void insertArticle(ArticleDTO articleDto) {
-        if (articleDto == null){
-            throw new ContentException(20001,"文章不能为空");
+        if (StringUtils.isEmpty(articleDto.getContent())){
+            throw new ContentException(20001,"创作失败 文章不能为空");
         }
-        //过滤敏感词
+        List<String> articles = new ArrayList<>();
+        articles.add(articleDto.getTitle());
+        articles.add(articleDto.getContent());
+
+        Set<String> set = checkWords(String.join(",", articles));
+        if (set != null){
+            throw new ContentException(20001,"创作失败 文章中含有敏感词" + set);
+        }
         //TODO 得到当前登录用户
         articleDto.setAuthorId("xmy");
         Article article = new Article();
@@ -83,11 +100,40 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void updateArticleById(ArticleDTO articleDto) {
+        List<String> articles = new ArrayList<>();
+        articles.add(articleDto.getTitle());
+        articles.add(articleDto.getContent());
+
+        Set<String> set = checkWords(String.join(",", articles));
+        if (set != null){
+            throw new ContentException(20001,"修改失败 文章中含有敏感词" + set);
+        }
         Article article = new Article();
         BeanUtils.copyProperties(articleDto,article);
         article.setAuditStatus(AuditStatusEnum.WAIT);
         articleMapper.updateById(article);
         articleAuditNotifyHelper.articleEditNotify(article.getId());
+    }
+
+    /**
+     * 敏感词检测
+     *
+     * @param text
+     * @return
+     */
+    public Set<String> checkWords(String text){
+        SensitiveWordInit sensitiveWordInit = new SensitiveWordInit();
+        QueryWrapper<SensitiveWord> wrapper = new QueryWrapper<>();
+        wrapper.select("word");
+        List<SensitiveWord> sensitiveWords = sensitiveWordMapper.selectList(wrapper);
+        Map sensitiveWordMap = sensitiveWordInit.initKeyWord(sensitiveWords);
+        SensitiveWordUtil.sensitiveWordMap = sensitiveWordMap;
+        Set<String> set = SensitiveWordUtil.getSensitiveWord(text, 2);
+        if (set == null || set.size() == 0){
+            return null;
+        }else {
+            return set;
+        }
     }
 
     @Override

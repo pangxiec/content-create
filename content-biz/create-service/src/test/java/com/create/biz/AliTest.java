@@ -1,9 +1,12 @@
 package com.create.biz;
 
-import com.create.biz.service.SensitiveWordService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.create.biz.utils.AliAuditUtil;
 import com.create.biz.utils.SensitiveWordInit;
 import com.create.biz.utils.SensitiveWordUtil;
+import com.create.common.utils.JsonUtil;
+import com.create.mapper.SensitiveWordMapper;
+import com.create.pojo.domain.Article;
 import com.create.pojo.domain.SensitiveWord;
 import com.create.pojo.domain.audit.textaudit.TextAuditResult;
 import org.junit.jupiter.api.Test;
@@ -24,7 +27,7 @@ import java.util.Set;
 public class AliTest {
 
     @Resource
-    private SensitiveWordService sensitiveWordService;
+    private SensitiveWordMapper sensitiveWordMapper;
 
     @Test
     public void testAudit() throws Exception {
@@ -38,30 +41,47 @@ public class AliTest {
 
     @Test
     public void beanToJson(){
-        SensitiveWordInit sensitiveWordInit = new SensitiveWordInit();
+        Article article = new Article();
+        article.setTitle("智障");
+        article.setContent("傻逼");
 
-        SensitiveWord sensitiveWord = new SensitiveWord();
-        sensitiveWord.setWord("傻逼");
+        List<String> articles = new ArrayList<>();
+        articles.add(article.getTitle());
+        articles.add(article.getContent());
 
-        SensitiveWord sensitiveWord2 = new SensitiveWord();
-        sensitiveWord2.setWord("智障");
-
-        List<SensitiveWord> sensitiveWords = new ArrayList<>();
-        sensitiveWords.add(sensitiveWord);
-        sensitiveWords.add(sensitiveWord2);
-
-        Map sensitiveWordMap = sensitiveWordInit.initKeyWord(sensitiveWords);
-        // 传入SensitivewordEngine类中的敏感词库
-        SensitiveWordUtil.sensitiveWordMap = sensitiveWordMap;
-        // 得到敏感词有哪些，传入2表示获取所有敏感词
-        String text = "傻逼 哈哈哈哈哈哈 智障";
-        Set<String> set = SensitiveWordUtil.getSensitiveWord(text, 2);
-        if (set == null || set.size() == 0){
-            System.out.println("没有敏感词");
-        }else {
-            System.out.println("含有敏感词" + set);
+        Set<String> set = checkWords(String.join(",", articles));
+        if (set != null){
+            System.out.println("创作失败 文章中含有敏感词" + set);
         }
     }
 
+    public Set<String> checkWords(String text){
+        SensitiveWordInit sensitiveWordInit = new SensitiveWordInit();
+        QueryWrapper<SensitiveWord> wrapper = new QueryWrapper<>();
+        wrapper.select("word");
+        List<SensitiveWord> sensitiveWords = sensitiveWordMapper.selectList(wrapper);
+        Map sensitiveWordMap = sensitiveWordInit.initKeyWord(sensitiveWords);
+        SensitiveWordUtil.sensitiveWordMap = sensitiveWordMap;
+        Set<String> set = SensitiveWordUtil.getSensitiveWord(text, 2);
+        if (set == null || set.size() == 0){
+            return null;
+        }else {
+            return set;
+        }
+    }
+
+    @Test
+    public void testJson(){
+        Article article = new Article();
+        article.setTitle("智障");
+        article.setContent("傻逼");
+
+        System.out.println(article);
+
+        String s = JsonUtil.parseToJSON(article);
+        System.out.println(s);
+
+
+    }
 
 }

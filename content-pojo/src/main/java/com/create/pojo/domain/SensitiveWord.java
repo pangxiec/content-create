@@ -17,11 +17,10 @@ public class SensitiveWord implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Integer id;
+    private Long id;
 
+    @ApiModelProperty(value = "否词")
     private String word;
-
-    private String content;
 
     @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
     @TableLogic
