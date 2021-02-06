@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2021/2/1 17:53
  */
 @Data
-public class ArticleDto implements Serializable {
+public class ArticleDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

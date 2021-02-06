@@ -13,7 +13,7 @@ import java.util.Date;
  * @author xmy
  * @data 2021/2/2 23:11
  */
-public class JwtUtils {
+public class JwtUtil {
 
     //常量
     public static final long EXPIRE = 1000 * 60 * 60 * 24; //token过期时间

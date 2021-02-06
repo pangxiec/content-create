@@ -1,6 +1,6 @@
 package com.create.ucenter.controller;
 
-import com.create.common.utils.JwtUtils;
+import com.create.common.utils.JwtUtil;
 import com.create.common.utils.PageResult;
 import com.create.common.utils.R;
 import com.create.pojo.domain.User;
@@ -25,12 +25,24 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "用户管理")
 @RestController
-@RequestMapping("/creation/user")
+@RequestMapping("/ucenter/user")
 @CrossOrigin
 public class UserController {
 
     @Resource
     private UserService userService;
+
+    @ApiOperation(value = "测试登录")
+    @PostMapping("/adminuser/login")
+    public R login(){
+        return R.ok().data("token","admin");
+    }
+
+    @ApiOperation(value = "测试登录信息")
+    @GetMapping("/adminuser/info")
+    public R info(){
+        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/02/00faf414b1de45088a4ce7416cb425131.jpg");
+    }
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
@@ -53,7 +65,7 @@ public class UserController {
     @ApiOperation("根据token获取用户登录信息")
     @GetMapping("/getLoginInfo")
     public R getLoginInfo(HttpServletRequest request){
-        String memberId = JwtUtils.getMemberIdByJwtToken(request);
+        String memberId = JwtUtil.getMemberIdByJwtToken(request);
         LoginInfoVO loginInfoVO = userService.getLoginInfo(memberId);
         return R.ok().data("item",loginInfoVO);
     }
@@ -102,5 +114,12 @@ public class UserController {
     public R registerCount(@PathVariable("day") String day){
         Integer count = userService.countRegisterDay(day);
         return R.ok().data("registerCount",count);
+    }
+
+    @ApiOperation(value = "统计某一天的登录人数")
+    @GetMapping("/loginCount/{day}")
+    public R loginCount(@PathVariable("day") String day){
+        Integer count = userService.countLoginDay(day);
+        return R.ok().data("loginCount",count);
     }
 }

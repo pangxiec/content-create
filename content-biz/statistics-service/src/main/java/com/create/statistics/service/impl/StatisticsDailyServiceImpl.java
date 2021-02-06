@@ -13,6 +13,10 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author xmy
@@ -35,22 +39,66 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         wrapper.eq("date_calculated",day);
         baseMapper.delete(wrapper);
 
-        //远程调用得到某一天的注册人数
+        //某一天的注册人数
         R registerR = ucenterClient.registerCount(day);
         Integer registerCount = (Integer)registerR.getData().get("registerCount");
 
+        //登录人数
+        R loginR = ucenterClient.loginCount(day);
+        Integer loginCount = (Integer)loginR.getData().get("loginCount");
+
+        //文章创作数
         R createR = articleClient.createCount(day);
         Integer createCount = (Integer)createR.getData().get("createCount");
 
         StatisticsDaily statisticsDaily = new StatisticsDaily();
         //注册人数
         statisticsDaily.setRegisterNum(registerCount);
+        //登录数
+        statisticsDaily.setLoginNum(loginCount);
         //文章数
         statisticsDaily.setCreateNum(createCount);
         //统计日期
         statisticsDaily.setDateCalculated(day);
-        statisticsDaily.setLoginNum(RandomUtils.nextInt(100,200));
 
         baseMapper.insert(statisticsDaily);
+    }
+
+    @Override
+    public Map<String, Object> showData(String type, String begin, String end) {
+        QueryWrapper<StatisticsDaily> wrapper = new QueryWrapper<>();
+        wrapper.between("date_calculated",begin,end);
+        wrapper.select("date_calculated",type);
+        List<StatisticsDaily> staDailyList = baseMapper.selectList(wrapper);
+
+        //需要返回两部分数据 日期和日期对应的数据
+        //日期List
+        List<String> dateList = new ArrayList<>();
+        //数据List
+        List<Integer> numDataList = new ArrayList<>();
+
+        for (int i = 0; i < staDailyList.size(); i++) {
+            StatisticsDaily statisticsDaily = staDailyList.get(i);
+            //日期集合
+            dateList.add(statisticsDaily.getDateCalculated());
+            //封装对应数量
+            switch (type){
+                case "login_num":
+                    numDataList.add(statisticsDaily.getLoginNum());
+                    break;
+                case "register_num":
+                    numDataList.add(statisticsDaily.getRegisterNum());
+                    break;
+                case "create_num":
+                    numDataList.add(statisticsDaily.getCreateNum());
+                default:
+                    break;
+            }
+        }
+        //把两个List放到map集合
+        Map<String,Object> map = new HashMap<>();
+        map.put("dateList",dateList);
+        map.put("numDataList",numDataList);
+        return map;
     }
 }

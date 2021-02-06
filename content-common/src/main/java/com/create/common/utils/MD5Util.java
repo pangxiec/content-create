@@ -9,7 +9,7 @@ import org.apache.shiro.util.ByteSource;
  * @author xmy
  * @date 2021/2/1 11:03
  */
-public class MD5Utils {
+public class MD5Util {
 
     private static final String SALT = "1qazxsw2";
 

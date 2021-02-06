@@ -1,6 +1,5 @@
 package com.create.pojo.vo;
 
-import com.create.common.enums.AuditStatusEnum;
 import com.create.common.enums.CategoryEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

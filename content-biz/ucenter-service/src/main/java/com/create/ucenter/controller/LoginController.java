@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class LoginController {
 
-    @PostMapping("/login")
-    public R login(){
-        return R.ok().data("token","admin");
-    }
-
-    @GetMapping("/info")
-    public R info(){
-        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/02/00faf414b1de45088a4ce7416cb425131.jpg");
-    }
+//    @PostMapping("/login")
+//    public R login(){
+//        return R.ok().data("token","admin");
+//    }
+//
+//    @GetMapping("/info")
+//    public R info(){
+//        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/02/00faf414b1de45088a4ce7416cb425131.jpg");
+//    }
 
 }

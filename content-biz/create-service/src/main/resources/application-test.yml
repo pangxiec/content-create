@@ -4,8 +4,6 @@ content:
   description: 测试环境
 
 spring:
-  profiles:
-    active: test
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -36,3 +34,25 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     # 配置监控统计拦截的 filters，去掉后监控界面 SQL 无法统计，'wall' 用于防火墙
     filters: stat,wall,slf4j
+
+  #Nacos 服务地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+aliyun:
+  regionId: cn-shanghai
+  accessKeyId: LTAI4GC7apLpn2BNBCX39wR3
+  secret: 2mENYLYnCgkB7CzRiuWZR45K6njsPA
+  labelList:
+    - spam
+    - politics
+    - abuse
+    - terrorism
+    - porn
+    - flood
+    - contraband
+  sceneList:
+    - porn
+    - terrorism

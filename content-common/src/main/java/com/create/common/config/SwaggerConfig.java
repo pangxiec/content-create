@@ -36,7 +36,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("内容创作平台API文档")
+                .title("API文档")
                 .description("后端业务服务")
                 .version("1.0")
                 .contact(new Contact("xmy","1743185983@qq.com","1743185983@qq.com"))

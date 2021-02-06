@@ -61,4 +61,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Integer countRegisterDay(String day);
+
+    /**
+     * 统计某天的登录人数
+     * @param day
+     * @return
+     */
+    Integer countLoginDay(String day);
 }

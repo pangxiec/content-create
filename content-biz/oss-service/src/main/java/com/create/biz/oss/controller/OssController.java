@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  */
 @Api(tags = "文件上传")
 @RestController
-@RequestMapping("/creation/oss")
+@RequestMapping("/file/oss")
 @CrossOrigin
 public class OssController {
 

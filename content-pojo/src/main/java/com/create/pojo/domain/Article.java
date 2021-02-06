@@ -3,6 +3,8 @@ package com.create.pojo.domain;
 import com.baomidou.mybatisplus.annotation.*;
 import com.create.common.enums.AuditStatusEnum;
 import com.create.common.enums.CategoryEnum;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -25,6 +27,7 @@ public class Article implements Serializable {
 
     @ApiModelProperty(value = "ID")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     @ApiModelProperty(value = "作者ID")
@@ -70,7 +73,6 @@ public class Article implements Serializable {
     private String imageUrl;
 
     @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
-    @TableField(fill = FieldFill.INSERT)
     @TableLogic
     private Integer isDeleted;
 

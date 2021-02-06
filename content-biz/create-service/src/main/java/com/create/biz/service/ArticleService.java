@@ -1,10 +1,14 @@
 package com.create.biz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.create.common.enums.SuggestionEnum;
 import com.create.common.utils.PageResult;
 import com.create.pojo.domain.Article;
-import com.create.pojo.dto.ArticleDto;
+import com.create.pojo.dto.ArticleDTO;
+import com.create.pojo.dto.ChangeAuditStatusDto;
 import com.create.pojo.vo.ArticleQueryVO;
+
+import java.util.List;
 
 /**
  * @author xmy
@@ -21,9 +25,26 @@ public interface ArticleService extends IService<Article> {
      */
     PageResult<Article> selectPage(long current, long limit, ArticleQueryVO articleQueryVO);
 
-    void insertArticle(ArticleDto articleDto);
+    /**
+     * 创作内容
+     * @param articleDto
+     */
+    void insertArticle(ArticleDTO articleDto);
 
-    void updateArticleById(ArticleDto articleDto);
+    /**
+     * 更新内容
+     * @param articleDto
+     */
+    void updateArticleById(ArticleDTO articleDto);
 
+    /**
+     * 统计某天的创作总数
+     * @param day
+     * @return
+     */
     Integer createCount(String day);
+
+    void changeAuditStatus(List<SuggestionEnum> statusCollection, Long id);
+
+    void updateAuditStatus(ChangeAuditStatusDto inputDto);
 }

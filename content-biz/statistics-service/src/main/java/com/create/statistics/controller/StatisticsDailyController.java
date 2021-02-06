@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author xmy
@@ -14,18 +15,26 @@ import javax.annotation.Resource;
  */
 @Api(tags = "数据统计")
 @RestController
-@RequestMapping("/create/sta")
-@CrossOrigin
+@RequestMapping("/data/sta")
+@CrossOrigin(allowCredentials="true",maxAge = 3600)
 public class StatisticsDailyController {
 
     @Resource
     private StatisticsDailyService dailyService;
 
-    @ApiOperation(value = "统计一天的注册人数")
-    @PostMapping("/{day}")
+    @ApiOperation(value = "统计数据")
+    @PostMapping("/dataCount/{day}")
     public R createStatisticsByDate(@PathVariable("day") String day){
         dailyService.createStatisticsByDay(day);
         return R.ok();
+    }
+
+    @ApiOperation(value = "得到统计数据")
+    @PostMapping("/getShowData/{type}/{begin}/{end}")
+    public R getShowData(@PathVariable("type") String type,@PathVariable("begin") String begin,
+                         @PathVariable("end") String end){
+        Map<String,Object> map = dailyService.showData(type,begin,end);
+        return R.ok().data(map);
     }
 
 }

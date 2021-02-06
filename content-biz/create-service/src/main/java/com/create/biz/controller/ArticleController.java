@@ -4,7 +4,7 @@ import com.create.biz.service.ArticleService;
 import com.create.common.utils.PageResult;
 import com.create.common.utils.R;
 import com.create.pojo.domain.Article;
-import com.create.pojo.dto.ArticleDto;
+import com.create.pojo.dto.ArticleDTO;
 import com.create.pojo.vo.ArticleQueryVO;
 import com.create.pojo.vo.ArticleVO;
 import io.swagger.annotations.Api;
@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 @Api(tags = "文章管理")
 @RestController
 @RequestMapping("/creation/article")
+@CrossOrigin
 public class ArticleController {
 
     @Resource
@@ -39,7 +40,7 @@ public class ArticleController {
     @ApiOperation("创作帖子")
     @PostMapping("/addArticle")
     public R addArticle(@RequestBody ArticleVO articleVO){
-        ArticleDto articleDto = new ArticleDto();
+        ArticleDTO articleDto = new ArticleDTO();
         BeanUtils.copyProperties(articleVO,articleDto);
         articleService.insertArticle(articleDto);
         return R.ok().message("创作成功");
@@ -58,7 +59,7 @@ public class ArticleController {
     @ApiOperation("修改帖子")
     @PostMapping("/updateArticle/{id}")
     public R updateArticle(@PathVariable("id") Long id,@RequestBody ArticleVO articleVO){
-        ArticleDto articleDto = new ArticleDto();
+        ArticleDTO articleDto = new ArticleDTO();
         BeanUtils.copyProperties(articleVO,articleDto);
         articleService.updateArticleById(articleDto);
         return R.ok();

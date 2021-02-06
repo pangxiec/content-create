@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 8001
 
 # 自定义配置
 content:
@@ -22,9 +22,9 @@ mybatis-plus:
       logic-delete-field: flag
       logic-delete-value: 1
       logic-not-delete-value: 0
-  type-aliases-package: com.create.pojo
+  type-aliases-package: com.create.pojo.domain  #实体类路由映射
+  type-enums-package: com.create.common.enums #开启枚举字段映射
   mapper-locations: mapper/**/*Mapper.xml
   # mybatis 日志
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  type-handlers-package: com.create.common.enums
