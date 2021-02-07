@@ -58,11 +58,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.getJwtToken(user.getId(),user.getNikeName());
 
         //存储登录日志
-        HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
         LoginLogDTO loginLogDto = new LoginLogDTO();
-        loginLogDto.setLoginIp(IpUtil.getIpAddr(request));
+        String ipAddr = IpUtil.getIpAddr();
+        loginLogDto.setLoginIp(ipAddr);
         loginLogDto.setLoginTime(new Date());
         loginLogDto.setLoginUser(loginDTO.getEmail());
+        loginLogDto.setLoginAddress(AddressUtil.getCityInfo(ipAddr));
         LoginLog(loginLogDto);
 
         return token;

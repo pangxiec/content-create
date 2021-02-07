@@ -30,6 +30,9 @@ public class LoginLog implements Serializable {
     @ApiModelProperty(value = "登录ip")
     private String loginIp;
 
+    @ApiModelProperty(value = "登录地址")
+    private String loginAddress;
+
     @ApiModelProperty(value = "登录时间")
     private Date loginTime;
 

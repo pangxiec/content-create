@@ -1,6 +1,5 @@
 package com.create.pojo.dto;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,6 +17,8 @@ public class LoginLogDTO implements Serializable {
     private String loginUser;
 
     private String loginIp;
+
+    private String loginAddress;
 
     private Date loginTime;
 }

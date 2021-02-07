@@ -3,12 +3,16 @@ package com.create.pojo.vo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author xmy
  * @data 2021/2/1 20:51
  */
 @Data
-public class ArticleQueryVO {
+public class ArticleQueryVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "作者Id")
     private String authorId;

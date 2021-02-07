@@ -62,7 +62,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (!StringUtils.isEmpty(authorId)) { queryWrapper.eq("author_id", authorId); }
         if (!StringUtils.isEmpty(title)) { queryWrapper.like("title", title); }
         if (!StringUtils.isEmpty(begin)) { queryWrapper.ge("create_time", begin); }
-        if (!StringUtils.isEmpty(end)) { queryWrapper.le("update_time", end); }
+        if (!StringUtils.isEmpty(end)) { queryWrapper.le("create_time", end); }
         queryWrapper.orderByDesc("create_time");
 
         articleMapper.selectPage(articlePage, queryWrapper);
