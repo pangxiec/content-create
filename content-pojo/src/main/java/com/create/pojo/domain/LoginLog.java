@@ -40,6 +40,12 @@ public class LoginLog implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
+    @ApiModelProperty(value = "操作系统")
+    private String os;
+
+    @ApiModelProperty(value = "浏览器类型")
+    private String browser;
+
     @ApiModelProperty(value = "修改时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;

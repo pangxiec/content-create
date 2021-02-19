@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Api(tags = "否词管理")
 @RestController
-@RequestMapping("/negative")
+@RequestMapping("/creation/negative")
 @CrossOrigin
 public class SensitiveWordController {
 

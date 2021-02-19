@@ -66,6 +66,16 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+#线程池配置
+thread:
+  #核心线程池大小
+  corePoolSize: 50
+  #最大可创建线程数
+  maxPoolSize: 200
+  #队列最大长度
+  queueCapacity: 1000
+  #线程池维护线程所允许的空闲时间
+  keepAliveSeconds: 300
 
 aliyun:
   regionId: cn-shanghai

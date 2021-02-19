@@ -12,6 +12,7 @@ import com.create.pojo.domain.User;
 import com.create.pojo.dto.*;
 import com.create.pojo.vo.LoginInfoVO;
 import com.create.ucenter.service.UserService;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -58,12 +59,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.getJwtToken(user.getId(),user.getNikeName());
 
         //存储登录日志
+        HttpServletRequest request = ServletUtils.getRequest();
         LoginLogDTO loginLogDto = new LoginLogDTO();
         String ipAddr = IpUtil.getIpAddr();
+        UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+        // 获取客户端操作系统
+        String os = userAgent.getOperatingSystem().getName();
+        // 获取客户端浏览器
+        String browser = userAgent.getBrowser().getName();
+
         loginLogDto.setLoginIp(ipAddr);
         loginLogDto.setLoginTime(new Date());
         loginLogDto.setLoginUser(loginDTO.getEmail());
         loginLogDto.setLoginAddress(AddressUtil.getCityInfo(ipAddr));
+        loginLogDto.setOs(os);
+        loginLogDto.setBrowser(browser);
+
         LoginLog(loginLogDto);
 
         return token;

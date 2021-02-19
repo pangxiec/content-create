@@ -1,5 +1,6 @@
 package com.create.pojo.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,6 +20,10 @@ public class LoginLogDTO implements Serializable {
     private String loginIp;
 
     private String loginAddress;
+
+    private String os;
+
+    private String browser;
 
     private Date loginTime;
 }

@@ -1,6 +1,10 @@
 package com.create.biz.controller;
 
 import com.create.biz.service.ArticleService;
+import com.create.common.annotation.OperateLog;
+import com.create.common.constant.BusinessTypeConstants;
+import com.create.common.constant.ModuleConstants;
+import com.create.common.enums.AuditStatusEnum;
 import com.create.common.utils.PageResult;
 import com.create.common.utils.R;
 import com.create.pojo.domain.Article;
@@ -14,6 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author xmy
@@ -28,8 +35,9 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-    @ApiOperation("分页查询贴子")
+    @ApiOperation("分页查询文章")
     @GetMapping("/{current}/{limit}")
+    @OperateLog(module = ModuleConstants.CREATE_SERVICE, businessType = BusinessTypeConstants.SELECT)
     public R selectPage(@PathVariable("current") long current,
                         @PathVariable("limit") long limit,
                         @Validated ArticleQueryVO articleQueryVO){
@@ -37,7 +45,15 @@ public class ArticleController {
         return R.ok().data("total",pageResult.getTotal()).data("rows",pageResult.getRecords());
     }
 
-    @ApiOperation("创作帖子")
+    @ApiOperation("获取文章状态")
+    @GetMapping("/status")
+    public R getPostStatus(){
+        AuditStatusEnum[] enums = AuditStatusEnum.values();
+        List<String> typeList = Arrays.asList(enums).stream().map(AuditStatusEnum::getMsg).collect(Collectors.toList());
+        return R.ok().data("data",typeList);
+    }
+
+    @ApiOperation("创作文章")
     @PostMapping("/addArticle")
     public R addArticle(@RequestBody ArticleVO articleVO){
         ArticleDTO articleDto = new ArticleDTO();
@@ -46,7 +62,14 @@ public class ArticleController {
         return R.ok().message("创作成功");
     }
 
-    @ApiOperation("删除帖子")
+    @ApiOperation("根据文章Id获取文章")
+    @GetMapping("/selectArticleById/{id}")
+    public R selectArticleById(@PathVariable("id") Long id){
+        Article article = articleService.getById(id);
+        return R.ok().data("article",article);
+    }
+
+    @ApiOperation("删除文章")
     @PostMapping("/deleteArticle/{id}")
     public R deleteArticle(@PathVariable("id") Long id){
         boolean b = articleService.removeById(id);
@@ -56,7 +79,7 @@ public class ArticleController {
         return R.error().message("删除失败");
     }
 
-    @ApiOperation("修改帖子")
+    @ApiOperation("修改文章")
     @PostMapping("/updateArticle/{id}")
     public R updateArticle(@PathVariable("id") Long id,@RequestBody ArticleVO articleVO){
         ArticleDTO articleDto = new ArticleDTO();
