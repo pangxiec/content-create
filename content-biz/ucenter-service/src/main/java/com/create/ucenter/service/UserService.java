@@ -19,7 +19,6 @@ import com.create.pojo.vo.LoginInfoVO;
  */
 public interface UserService extends IService<User> {
 
-
     /**
      * 用户登录
      * @param loginDTO
@@ -45,6 +44,7 @@ public interface UserService extends IService<User> {
      * @param current
      * @param limit
      * @param userQueryDTO
+     * @return
      */
     PageResult<User> selectPage(long current, long limit, UserQueryDTO userQueryDTO);
 
@@ -68,4 +68,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Integer countLoginDay(String day);
+
+    /**
+     * 查询用户详情
+     * @param username
+     * @return
+     */
+    User selectByUsername(String username);
 }

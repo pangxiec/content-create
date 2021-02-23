@@ -8,8 +8,9 @@ import com.create.common.annotation.OperateLog;
 import com.create.common.utils.AddressUtil;
 import com.create.common.utils.IpUtil;
 import com.create.common.utils.ServletUtils;
-import com.create.pojo.domain.SysLogOperate;
+import com.create.pojo.domain.SysOperateLog;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
@@ -95,22 +96,19 @@ public class OperateLogAspect {
 
             HttpServletRequest request = ServletUtils.getRequest();
             String ipAddr = IpUtil.getIpAddr();
-            String url = request.getRequestURL().toString();
             String location = AddressUtil.getCityInfo(ipAddr);
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-            String os = userAgent.getOperatingSystem().getName();
-            String browser = userAgent.getBrowser().getName();
 
-            //TODO 系统操作日志
-            SysLogOperate operateDO = new SysLogOperate();
-
-//            operateDO.setIp(ip);
-//            operateDO.setLocation(location);
-//            operateDO.setOs(os);
-//            operateDO.setBrowser(browser);
-//            operateDO.setCreateTime(new Date());
-
-
+            SysOperateLog operateDO = new SysOperateLog();
+            operateDO.setIp(ipAddr);
+            operateDO.setOperateAddress(location);
+//            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+//            Method method = signature.getMethod();
+//            OperateLog syslog = method.getAnnotation(OperateLog.class);
+//            if (syslog != null) {
+//                operateDO.setOperateDescription(syslog.module());
+//            }
+            operateDO.setResult(0);
             // 处理设置在注解上的参数
             getControllerMethodDescription(joinPoint, operateLog, operateDO);
 
@@ -146,18 +144,18 @@ public class OperateLogAspect {
      * @param operateLog 操作日志
      * @throws Exception 异常
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, OperateLog log, SysLogOperate operateLog) throws Exception {
-//        // 设置业务描述（ordinal设置枚举对象在类中的索引）
-//        operateLog.setBusinessType(log.businessType());
-//        // 设置标题
-//        operateLog.setModule(log.module());
-//        // 设置操作人类别
-//        operateLog.setClientType("A");
-//        // 是否需要保存request，参数和值
-//        if (log.isSaveRequestData()) {
-//            // 获取参数的信息，传入到数据库中。
-//            setRequestValue(joinPoint, operateLog);
-//        }
+    public void getControllerMethodDescription(JoinPoint joinPoint, OperateLog log, SysOperateLog operateLog) throws Exception {
+        // 设置业务描述（ordinal设置枚举对象在类中的索引）
+        operateLog.setOperateDescription(log.businessType());
+        // 设置标题
+        //operateLog.setModule(log.module());
+        // 设置操作人类别
+        //operateLog.setClientType("A");
+        // 是否需要保存request，参数和值
+        if (log.isSaveRequestData()) {
+            // 获取参数的信息，传入到数据库中。
+            setRequestValue(joinPoint, operateLog);
+        }
     }
 
     /**
@@ -166,7 +164,7 @@ public class OperateLogAspect {
      * @param operateLog 操作日志
      * @throws Exception 异常
      */
-//    private void setRequestValue(JoinPoint joinPoint, SysLogOperateDO operateLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, SysOperateLog operateLog) throws Exception {
 //        String requestMethod = operateLog.getRequestMethod();
 //        if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
 //            String params = argsArrayToString(joinPoint.getArgs());
@@ -175,7 +173,7 @@ public class OperateLogAspect {
 //            Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 //            operateLog.setRequestParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
 //        }
-//    }
+    }
 
 
     /**

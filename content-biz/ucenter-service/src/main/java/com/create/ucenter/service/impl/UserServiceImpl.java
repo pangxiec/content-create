@@ -58,33 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         String token = JwtUtil.getJwtToken(user.getId(),user.getNikeName());
 
-        //存储登录日志
-        HttpServletRequest request = ServletUtils.getRequest();
-        LoginLogDTO loginLogDto = new LoginLogDTO();
-        String ipAddr = IpUtil.getIpAddr();
-        UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-        // 获取客户端操作系统
-        String os = userAgent.getOperatingSystem().getName();
-        // 获取客户端浏览器
-        String browser = userAgent.getBrowser().getName();
-
-        loginLogDto.setLoginIp(ipAddr);
-        loginLogDto.setLoginTime(new Date());
-        loginLogDto.setLoginUser(loginDTO.getEmail());
-        loginLogDto.setLoginAddress(AddressUtil.getCityInfo(ipAddr));
-        loginLogDto.setOs(os);
-        loginLogDto.setBrowser(browser);
-
-        LoginLog(loginLogDto);
-
         return token;
-    }
-
-    @Async
-    public void LoginLog(LoginLogDTO loginLogDto){
-        LoginLog loginLog = new LoginLog();
-        BeanUtils.copyProperties(loginLogDto,loginLog);
-        loginLogMapper.insert(loginLog);
     }
 
     @Override
@@ -180,5 +154,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Integer countLoginDay(String day) {
         Integer count = loginLogMapper.selectLoginCount(day);
         return count;
+    }
+
+    @Override
+    public User selectByUsername(String username) {
+        return baseMapper.selectOne(new QueryWrapper<User>().eq("nike_name", username));
     }
 }

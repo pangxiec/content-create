@@ -143,6 +143,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    public void incCommentsCount(Long articleId, Integer commentsCount) {
+        this.baseMapper.incCommentsCount(articleId, commentsCount);
+    }
+
+    @Override
     public void changeAuditStatus(List<SuggestionEnum> statusCollection, Long id) {
         ChangeAuditStatusDto changeAuditStatusDto = new ChangeAuditStatusDto();
         changeAuditStatusDto.setArticleId(id);

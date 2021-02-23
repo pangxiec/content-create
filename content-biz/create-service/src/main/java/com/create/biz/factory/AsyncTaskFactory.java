@@ -6,7 +6,7 @@ import com.create.common.utils.AddressUtil;
 import com.create.common.utils.IpUtil;
 import com.create.common.utils.ServletUtils;
 import com.create.pojo.domain.LoginLog;
-import com.create.pojo.domain.SysLogOperate;
+import com.create.pojo.domain.SysOperateLog;
 import com.create.pojo.dto.LoginLogDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public class AsyncTaskFactory {
      * @param logOperate 操作日志信息
      * @return 任务task
      */
-    public TimerTask recordOperateLog(final SysLogOperate logOperate) {
+    public TimerTask recordOperateLog(final SysOperateLog logOperate) {
         return new TimerTask() {
             @Override
             public void run() {

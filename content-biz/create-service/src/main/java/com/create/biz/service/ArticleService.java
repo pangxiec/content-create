@@ -44,6 +44,13 @@ public interface ArticleService extends IService<Article> {
      */
     Integer createCount(String day);
 
+    /**
+     * 增加文章评论数
+     * @param articleId
+     * @param commentsCount
+     */
+    void incCommentsCount(Long articleId, Integer commentsCount);
+
     void changeAuditStatus(List<SuggestionEnum> statusCollection, Long id);
 
     void updateAuditStatus(ChangeAuditStatusDto inputDto);

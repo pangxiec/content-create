@@ -5,4 +5,9 @@
     <select id="createCount" resultType="java.lang.Integer">
         SELECT count(*) FROM article WHERE DATE(create_time) = #{day}
     </select>
+
+    <update id="incCommentsCount">
+        update article set comments_count = comments_count + #{counts} where id = #{articleId}
+    </update>
+
 </mapper>

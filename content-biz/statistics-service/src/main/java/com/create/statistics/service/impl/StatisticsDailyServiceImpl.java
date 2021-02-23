@@ -11,6 +11,7 @@ import com.create.statistics.client.UcenterClient;
 import com.create.statistics.service.StatisticsDailyService;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -33,32 +34,25 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void createStatisticsByDay(String day) {
-        //在添加之前先删除
         QueryWrapper<StatisticsDaily> wrapper = new QueryWrapper<>();
         wrapper.eq("date_calculated",day);
         baseMapper.delete(wrapper);
 
-        //某一天的注册人数
         R registerR = ucenterClient.registerCount(day);
         Integer registerCount = (Integer)registerR.getData().get("registerCount");
 
-        //登录人数
         R loginR = ucenterClient.loginCount(day);
         Integer loginCount = (Integer)loginR.getData().get("loginCount");
 
-        //文章创作数
         R createR = articleClient.createCount(day);
         Integer createCount = (Integer)createR.getData().get("createCount");
 
         StatisticsDaily statisticsDaily = new StatisticsDaily();
-        //注册人数
         statisticsDaily.setRegisterNum(registerCount);
-        //登录数
         statisticsDaily.setLoginNum(loginCount);
-        //文章数
         statisticsDaily.setCreateNum(createCount);
-        //统计日期
         statisticsDaily.setDateCalculated(day);
 
         baseMapper.insert(statisticsDaily);
@@ -95,7 +89,6 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
                     break;
             }
         }
-        //把两个List放到map集合
         Map<String,Object> map = new HashMap<>();
         map.put("dateList",dateList);
         map.put("numDataList",numDataList);

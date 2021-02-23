@@ -1,5 +1,7 @@
 package com.create.common.utils;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,12 +19,13 @@ import java.util.Map;
  * @author xmy
  * @date 2021/2/7 10:51
  */
+@Log4j2
 public class EmailUtil {
 
     private static final String SENDER = "1743185983@qq.com";
 
     @Resource
-    private JavaMailSender mailSender;
+    private static JavaMailSender mailSender;
 
     /**
      * 发送普通邮件
@@ -30,16 +33,16 @@ public class EmailUtil {
      * @param subject 主题
      * @param content 内容
      */
-    public void sendSimpleMailMessage(String to, String subject, String content) {
+    public static void sendSimpleMailMessage(String to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(SENDER);
+        message.setFrom("xmy1743185983@163.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
         try {
             mailSender.send(message);
         } catch (Exception e) {
-            System.out.println("发送邮件异常");
+            log.error("发送邮件异常");
         }
     }
 
@@ -60,7 +63,7 @@ public class EmailUtil {
             helper.setText(content, true);
             mailSender.send(message);
         } catch (MessagingException e) {
-            System.out.println("发送邮件异常");
+            log.error("发送邮件异常");
         }
     }
 
@@ -88,7 +91,7 @@ public class EmailUtil {
 
             mailSender.send(message);
         } catch (MessagingException e) {
-            System.out.println("发送带附件邮件异常");
+            log.error("发送邮件异常");
         }
     }
 
@@ -115,7 +118,7 @@ public class EmailUtil {
             }
             mailSender.send(message);
         } catch (MessagingException e) {
-            System.out.println("发送带静态文件的邮件异常");
+            log.error("发送邮件异常");
         }
     }
 
