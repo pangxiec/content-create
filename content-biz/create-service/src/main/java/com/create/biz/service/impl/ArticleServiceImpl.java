@@ -84,7 +84,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             throw new ContentException(20001,"创作失败 文章中含有敏感词" + set);
         }
         //TODO 得到当前登录用户
-        articleDto.setAuthorId("xmy");
+        articleDto.setAuthorId("大螃蟹");
         Article article = new Article();
         BeanUtils.copyProperties(articleDto,article);
         articleMapper.insert(article);
@@ -185,8 +185,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public List<OutputBlockReasonDTO> getFailureReasons(Long articleId) {
         List<AuditArticle> auditArticles = auditArticleMapper.selectList(new QueryWrapper<AuditArticle>()
-                .eq("article_id", articleId)
-                .eq("suggestion",SuggestionEnum.BLOCK));
+                                                             .eq("article_id", articleId)
+                                                             .eq("suggestion",SuggestionEnum.BLOCK));
         List<OutputBlockReasonDTO> result = auditArticles.stream().map(item -> {
             OutputBlockReasonDTO outputBlockReason = new OutputBlockReasonDTO();
             BeanUtils.copyProperties(item, outputBlockReason);

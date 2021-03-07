@@ -1,12 +1,6 @@
 server:
   port: 8001
 
-# 自定义配置
-content:
-  name: content-create
-  version: 0.0.1
-  description: 创作分享
-
 spring:
   application:
     name: create-service

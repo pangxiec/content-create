@@ -8,6 +8,9 @@
         <module>content-pojo</module>
         <module>content-dao</module>
         <module>content-biz</module>
+        <module>content-gateway</module>
+        <module>content_security</module>
+        <module>content-portal</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -52,6 +55,7 @@
         <druid.version>1.1.14</druid.version>
         <ip2region.version>1.7</ip2region.version>
         <lombok.version>1.18.12</lombok.version>
+        <bitwalker.version>1.19</bitwalker.version>
     </properties>
 
     <dependencyManagement>
@@ -143,6 +147,13 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${jodatime.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
             </dependency>
 
             <!--xls-->

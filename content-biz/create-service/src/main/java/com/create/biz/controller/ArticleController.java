@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,9 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class ArticleController {
 
+    @Resource
+    private ArticleService articleService;
+
     @ApiOperation(value = "测试登录")
     @PostMapping("/adminuser/login")
     public R login(){
@@ -46,15 +50,12 @@ public class ArticleController {
         return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/04/845ea08910c047ff972abb6d3349164a15.png");
     }
 
-    @Resource
-    private ArticleService articleService;
-
     @ApiOperation("分页查询文章")
     @GetMapping("/{current}/{limit}")
     @OperateLog(module = ModuleConstants.CREATE_SERVICE, businessType = BusinessTypeConstants.SELECT)
     public R selectPage(@PathVariable("current") long current,
                         @PathVariable("limit") long limit,
-                        @Validated ArticleQueryVO articleQueryVO){
+                        @Valid ArticleQueryVO articleQueryVO){
         PageResult<Article> pageResult = articleService.selectPage(current, limit, articleQueryVO);
         return R.ok().data("total",pageResult.getTotal()).data("rows",pageResult.getRecords());
     }
@@ -93,6 +94,15 @@ public class ArticleController {
         return R.error().message("删除失败");
     }
 
+    @ApiOperation("修改文章")
+    @PostMapping("/updateArticle")
+    public R updateArticle(@RequestBody ArticleVO articleVO){
+        ArticleDTO articleDto = new ArticleDTO();
+        BeanUtils.copyProperties(articleVO,articleDto);
+        articleService.updateArticleById(articleDto);
+        return R.ok();
+    }
+
     @ApiOperation(value = "获取审核未通过的原因")
     @GetMapping("/getFailureReason/{articleId}")
     public R getFailureReason(@PathVariable("articleId") Long articleId){
@@ -103,15 +113,6 @@ public class ArticleController {
             return respBlockReasonVO;
         }).collect(Collectors.toList());
         return R.ok().data("result", result);
-    }
-
-    @ApiOperation("修改文章")
-    @PostMapping("/updateArticle/{id}")
-    public R updateArticle(@PathVariable("id") Long id,@RequestBody ArticleVO articleVO){
-        ArticleDTO articleDto = new ArticleDTO();
-        BeanUtils.copyProperties(articleVO,articleDto);
-        articleService.updateArticleById(articleDto);
-        return R.ok();
     }
 
     @ApiOperation(value = "统计某一天的文章数")

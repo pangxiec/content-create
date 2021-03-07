@@ -14,8 +14,8 @@ public enum CategoryEnum {
 
     STUDY(0,"学习"),
     LIFE(1,"生活"),
-    BOLE(3,"伯乐"),
-    EXPERIENCE(4,"经验");
+    BOLE(2,"伯乐"),
+    EXPERIENCE(3,"经验");
 
     @EnumValue
     private Integer code;

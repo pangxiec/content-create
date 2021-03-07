@@ -15,7 +15,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/content_creation?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8
     username: root
-    password: abcxmy
+    password: xmyabc
     initialSize: 1
     minIdle: 3
     maxActive: 20

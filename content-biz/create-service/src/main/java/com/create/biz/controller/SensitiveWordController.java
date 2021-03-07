@@ -61,9 +61,9 @@ public class SensitiveWordController {
 
     @ApiOperation(value = "修改否词")
     @PostMapping("/updateWord")
-    public R updateNegativeWord(@RequestBody SensitiveWordVO sensitiveWordVO){
+    public R updateNegativeWord(String word){
         SensitiveWord sensitiveWord = new SensitiveWord();
-        BeanUtils.copyProperties(sensitiveWordVO,sensitiveWord);
+        sensitiveWord.setWord(word);
         sensitiveWordService.updateById(sensitiveWord);
         return R.ok();
     }

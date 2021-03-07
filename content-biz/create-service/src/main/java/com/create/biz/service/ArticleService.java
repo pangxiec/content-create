@@ -54,7 +54,16 @@ public interface ArticleService extends IService<Article> {
 
     void changeAuditStatus(List<SuggestionEnum> statusCollection, Long id);
 
+    /**
+     * 修改审核状态
+     * @param inputDto
+     */
     void updateAuditStatus(ChangeAuditStatusDto inputDto);
 
+    /**
+     * 获取未通过的原因
+     * @param id
+     * @return
+     */
     List<OutputBlockReasonDTO> getFailureReasons(Long articleId);
 }
