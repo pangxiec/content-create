@@ -7,9 +7,10 @@ import com.create.admin.service.PermissionService;
 import com.create.admin.service.RoleService;
 import com.create.common.handler.ContentException;
 import com.create.pojo.domain.Role;
-import com.create.pojo.domain.User;
-import com.create.ucenter.service.UserService;
+import com.create.pojo.domain.UcenterMember;
+import com.create.ucenter.service.UcenterMemberService;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -21,10 +22,11 @@ import java.util.stream.Collectors;
  * @author xmy
  * @date 2021/2/23 10:48
  */
+@Service
 public class IndexServiceImpl implements IndexService {
 
     @Resource
-    private UserService userService;
+    private UcenterMemberService userService;
 
     @Resource
     private RoleService roleService;
@@ -38,7 +40,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public Map<String, Object> getUserInfo(String nikeName) {
         Map<String, Object> result = new HashMap<>();
-        User user = userService.getOne(new QueryWrapper<User>().eq("nike_name",nikeName));
+        UcenterMember user = userService.getOne(new QueryWrapper<UcenterMember>().eq("nike_name",nikeName));
         if (null == user) {
             throw new ContentException(20001,"error");
         }
@@ -69,7 +71,7 @@ public class IndexServiceImpl implements IndexService {
      */
     @Override
     public List<JSONObject> getMenu(String nikeName) {
-        User user = userService.getOne(new QueryWrapper<User>().eq("nike_name",nikeName));
+        UcenterMember user = userService.getOne(new QueryWrapper<UcenterMember>().eq("nike_name",nikeName));
         List<JSONObject> permissionList = permissionService.selectPermissionByUserId(user.getId());
         return permissionList;
     }

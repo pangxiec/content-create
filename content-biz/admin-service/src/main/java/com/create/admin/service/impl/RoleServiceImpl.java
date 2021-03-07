@@ -7,6 +7,7 @@ import com.create.admin.service.UserRoleService;
 import com.create.mapper.RoleMapper;
 import com.create.pojo.domain.Role;
 import com.create.pojo.domain.UserRole;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @author xmy
  * @date 2021/2/23 12:16
  */
+@Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
     @Resource

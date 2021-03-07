@@ -8,16 +8,20 @@ import com.create.biz.helper.ArticleAuditNotifyHelper;
 import com.create.biz.service.ArticleService;
 import com.create.biz.utils.SensitiveWordInit;
 import com.create.biz.utils.SensitiveWordUtil;
+import com.create.common.enums.AuditLabelEnum;
 import com.create.common.enums.AuditStatusEnum;
 import com.create.common.enums.SuggestionEnum;
 import com.create.common.handler.ContentException;
 import com.create.common.utils.PageResult;
 import com.create.mapper.ArticleMapper;
+import com.create.mapper.AuditArticleMapper;
 import com.create.mapper.SensitiveWordMapper;
 import com.create.pojo.domain.Article;
+import com.create.pojo.domain.AuditArticle;
 import com.create.pojo.domain.SensitiveWord;
 import com.create.pojo.dto.ArticleDTO;
 import com.create.pojo.dto.ChangeAuditStatusDto;
+import com.create.pojo.dto.OutputBlockReasonDTO;
 import com.create.pojo.vo.ArticleQueryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author xmy
@@ -40,6 +45,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Resource
     private ArticleMapper articleMapper;
+
+    @Resource
+    private AuditArticleMapper auditArticleMapper;
 
     @Resource
     ArticleAuditNotifyHelper articleAuditNotifyHelper;
@@ -187,5 +195,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (!result) {
             throw new ContentException(20001, "内容不存在或状态不需要修改!");
         }
+    }
+
+    @Override
+    public List<OutputBlockReasonDTO> getFailureReasons(Long articleId) {
+        List<AuditArticle> auditArticles = auditArticleMapper.selectList(new QueryWrapper<AuditArticle>()
+                .eq("article_id", articleId)
+                .eq("suggestion",SuggestionEnum.BLOCK));
+        List<OutputBlockReasonDTO> result = auditArticles.stream().map(item -> {
+            OutputBlockReasonDTO outputBlockReason = new OutputBlockReasonDTO();
+            BeanUtils.copyProperties(item, outputBlockReason);
+            String[] split = item.getLabel().split(",");
+            String label = "";
+            for(String s : split){
+                label = label + AuditLabelEnum.valueOf(s.toUpperCase()).getMsg() + ",";
+            }
+            label = label.substring(0, label.length()-1);
+            outputBlockReason.setLabel(label);
+            return outputBlockReason;
+        }).collect(Collectors.toList());
+        return result;
     }
 }

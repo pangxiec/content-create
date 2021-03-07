@@ -3,6 +3,7 @@ package com.create.admin.controller;
 import com.create.admin.service.PermissionService;
 import com.create.common.utils.R;
 import com.create.pojo.domain.Permission;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author xmy
  * @date 2021/2/23 15:35
  */
+@Api(tags = "菜单管理")
 @RestController
 @RequestMapping("/admin/permission")
 public class PermissionController {

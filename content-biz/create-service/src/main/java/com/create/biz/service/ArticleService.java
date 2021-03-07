@@ -6,6 +6,7 @@ import com.create.common.utils.PageResult;
 import com.create.pojo.domain.Article;
 import com.create.pojo.dto.ArticleDTO;
 import com.create.pojo.dto.ChangeAuditStatusDto;
+import com.create.pojo.dto.OutputBlockReasonDTO;
 import com.create.pojo.vo.ArticleQueryVO;
 
 import java.util.List;
@@ -54,4 +55,6 @@ public interface ArticleService extends IService<Article> {
     void changeAuditStatus(List<SuggestionEnum> statusCollection, Long id);
 
     void updateAuditStatus(ChangeAuditStatusDto inputDto);
+
+    List<OutputBlockReasonDTO> getFailureReasons(Long articleId);
 }

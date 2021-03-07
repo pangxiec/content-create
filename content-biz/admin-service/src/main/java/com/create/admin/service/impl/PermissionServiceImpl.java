@@ -10,8 +10,9 @@ import com.create.admin.service.RolePermissionService;
 import com.create.mapper.PermissionMapper;
 import com.create.pojo.domain.Permission;
 import com.create.pojo.domain.RolePermission;
-import com.create.pojo.domain.User;
-import com.create.ucenter.service.UserService;
+import com.create.pojo.domain.UcenterMember;
+import com.create.ucenter.service.UcenterMemberService;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -22,13 +23,14 @@ import java.util.List;
  * @author xmy
  * @date 2021/2/23 14:02
  */
+@Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
     @Resource
     private RolePermissionService rolePermissionService;
 
     @Resource
-    private UserService userService;
+    private UcenterMemberService userService;
 
     @Override
     public List<Permission> queryAllMenu() {
@@ -159,9 +161,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public List<Permission> queryAllMenuContent() {
         //1 查询菜单表所有数据
-        QueryWrapper<Permission> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("id");
-        List<Permission> permissionList = baseMapper.selectList(wrapper);
+        List<Permission> permissionList = baseMapper.selectList(new QueryWrapper<Permission>().orderByDesc("id"));
         //2 把查询所有菜单list集合按照要求进行封装
         List<Permission> resultList = bulidPermission(permissionList);
         return resultList;
@@ -173,7 +173,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * @return
      */
     public static List<Permission> bulidPermission(List<Permission> permissionList) {
-
         //创建list集合，用于数据最终封装
         List<Permission> finalNode = new ArrayList<>();
         //把所有菜单list集合遍历，得到顶层菜单 pid=0菜单，设置level是1
@@ -192,7 +191,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     private static Permission selectChildren(Permission permissionNode, List<Permission> permissionList) {
         //1 因为向一层菜单里面放二层菜单，二层里面还要放三层，把对象初始化
         permissionNode.setChildren(new ArrayList<Permission>());
-
         //2 遍历所有菜单list集合，进行判断比较，比较id和pid值是否相同
         for(Permission it : permissionList) {
             //判断 id和pid值是否相同
@@ -262,7 +260,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * @return
      */
     private boolean isSysAdmin(Long userId){
-        User user = userService.getById(userId);
+        UcenterMember user = userService.getById(userId);
         if (null != user && "admin".equals(user.getNikeName())){
             return true;
         }

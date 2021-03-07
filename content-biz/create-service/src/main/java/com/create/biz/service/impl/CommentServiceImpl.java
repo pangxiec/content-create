@@ -6,9 +6,9 @@ import com.create.biz.service.ArticleService;
 import com.create.biz.service.CommentService;
 import com.create.mapper.CommentMapper;
 import com.create.pojo.domain.Comment;
-import com.create.pojo.domain.User;
+import com.create.pojo.domain.UcenterMember;
 import com.create.pojo.dto.CommentDTO;
-import com.create.ucenter.service.UserService;
+import com.create.ucenter.service.UcenterMemberService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,11 +27,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private ArticleService articleService;
 
     @Resource
-    private UserService userService;
+    private UcenterMemberService userService;
 
     @Override
     public void insertComment(CommentDTO commentDTO) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UcenterMember user = (UcenterMember) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         commentDTO.setFromUserId(user.getEmail());
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentDTO,comment);
@@ -39,7 +39,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (comment.getPid() == null){
             articleService.incCommentsCount(comment.getArticleId(),1);
         }
-        User u = userService.getById(comment.getToUserId());
+        UcenterMember u = userService.getById(comment.getToUserId());
         if(u.getEmail() != null && !u.getEmail().equals("")){
             String content;
             if (comment.getPid() == null){

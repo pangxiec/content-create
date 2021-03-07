@@ -2,7 +2,7 @@ package com.create.security.filter;
 
 import com.create.common.utils.R;
 import com.create.common.utils.ResponseUtil;
-import com.create.pojo.domain.User;
+import com.create.pojo.domain.UcenterMember;
 import com.create.security.entity.SecurityUser;
 import com.create.security.security.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,7 +45,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException {
         try {
-            User user = new ObjectMapper().readValue(req.getInputStream(), User.class);
+            UcenterMember user = new ObjectMapper().readValue(req.getInputStream(), UcenterMember.class);
 
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), new ArrayList<>()));
         } catch (IOException e) {

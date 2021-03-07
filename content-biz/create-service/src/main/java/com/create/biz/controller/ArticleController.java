@@ -9,8 +9,10 @@ import com.create.common.utils.PageResult;
 import com.create.common.utils.R;
 import com.create.pojo.domain.Article;
 import com.create.pojo.dto.ArticleDTO;
+import com.create.pojo.dto.OutputBlockReasonDTO;
 import com.create.pojo.vo.ArticleQueryVO;
 import com.create.pojo.vo.ArticleVO;
+import com.create.pojo.vo.RespBlockReasonVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -77,6 +79,18 @@ public class ArticleController {
             return R.ok().message("删除成功");
         }
         return R.error().message("删除失败");
+    }
+
+    @ApiOperation(value = "获取审核未通过的原因")
+    @GetMapping("/getFailureReason/{articleId}")
+    public R getFailureReason(@PathVariable("articleId") Long articleId){
+        List<OutputBlockReasonDTO> failureReasons = articleService.getFailureReasons(articleId);
+        List<RespBlockReasonVO> result = failureReasons.stream().map(dto -> {
+            RespBlockReasonVO respBlockReasonVO = new RespBlockReasonVO();
+            BeanUtils.copyProperties(dto, respBlockReasonVO);
+            return respBlockReasonVO;
+        }).collect(Collectors.toList());
+        return R.ok().data("result", result);
     }
 
     @ApiOperation("修改文章")

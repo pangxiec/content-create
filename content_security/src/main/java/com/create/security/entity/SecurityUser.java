@@ -1,6 +1,6 @@
 package com.create.security.entity;
 
-import com.create.pojo.domain.User;
+import com.create.pojo.domain.UcenterMember;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,16 +19,20 @@ import java.util.List;
  */
 @Data
 public class SecurityUser implements UserDetails {
-    //当前登录用户
-    private transient User currentUserInfo;
+    /**
+     * 当前登录用户
+     */
+    private transient UcenterMember currentUserInfo;
 
-    //当前权限
+    /**
+     * 当前权限
+     */
     private List<String> permissionValueList;
 
     public SecurityUser() {
     }
 
-    public SecurityUser(User user) {
+    public SecurityUser(UcenterMember user) {
         if (user != null) {
             this.currentUserInfo = user;
         }

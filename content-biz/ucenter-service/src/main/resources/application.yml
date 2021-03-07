@@ -8,9 +8,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.102.133.252:3306/content_creation?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8
+    url: jdbc:mysql://127.0.0.1:3306/content_creation?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8
     username: root
-    password: xmyabc
+    password: abcxmy
   #返回json得全局时间格式
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

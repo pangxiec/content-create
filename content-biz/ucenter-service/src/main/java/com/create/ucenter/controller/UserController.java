@@ -3,13 +3,13 @@ package com.create.ucenter.controller;
 import com.create.common.utils.JwtUtil;
 import com.create.common.utils.PageResult;
 import com.create.common.utils.R;
-import com.create.pojo.domain.User;
+import com.create.pojo.domain.UcenterMember;
 import com.create.pojo.dto.LoginDTO;
 import com.create.pojo.dto.RegisterDTO;
 import com.create.pojo.dto.UserInfoDTO;
 import com.create.pojo.dto.UserQueryDTO;
 import com.create.pojo.vo.*;
-import com.create.ucenter.service.UserService;
+import com.create.ucenter.service.UcenterMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @Resource
-    private UserService userService;
+    private UcenterMemberService userService;
 
     @ApiOperation(value = "测试登录")
     @PostMapping("/adminuser/login")
@@ -41,7 +41,7 @@ public class UserController {
     @ApiOperation(value = "测试登录信息")
     @GetMapping("/adminuser/info")
     public R info(){
-        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/02/00faf414b1de45088a4ce7416cb425131.jpg");
+        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/04/845ea08910c047ff972abb6d3349164a15.png");
     }
 
     @ApiOperation(value = "用户登录")
@@ -76,7 +76,7 @@ public class UserController {
                         @Validated UserQueryVO userQueryVO){
         UserQueryDTO userQueryDTO = new UserQueryDTO();
         BeanUtils.copyProperties(userQueryVO,userQueryDTO);
-        PageResult<User> pageResult = userService.selectPage(current,limit,userQueryDTO);
+        PageResult<UcenterMember> pageResult = userService.selectPage(current,limit,userQueryDTO);
         return R.ok().data("total",pageResult.getTotal()).data("rows",pageResult.getRecords());
     }
 
@@ -93,7 +93,7 @@ public class UserController {
     @ApiOperation(value = "根据id查询用户信息")
     @GetMapping("/selectUserInfo/{id}")
     public R selectUserInfo(@PathVariable("id") Long id){
-        User user = userService.getById(id);
+        UcenterMember user = userService.getById(id);
         return R.ok().data("user",user);
     }
 
