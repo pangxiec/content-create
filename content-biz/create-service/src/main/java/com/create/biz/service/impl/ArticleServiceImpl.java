@@ -57,31 +57,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public PageResult<Article> selectPage(long current, long limit, ArticleQueryVO articleQueryVO) {
-
         Page<Article> articlePage = new Page<>(current,limit);
-
-        QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
-
-        String authorId = articleQueryVO.getAuthorId();
-        String title = articleQueryVO.getTitle();
-        String begin = articleQueryVO.getBegin();
-        String end = articleQueryVO.getEnd();
-
-        if (!StringUtils.isEmpty(authorId)) { queryWrapper.eq("author_id", authorId); }
-        if (!StringUtils.isEmpty(title)) { queryWrapper.like("title", title); }
-        if (!StringUtils.isEmpty(begin)) { queryWrapper.ge("create_time", begin); }
-        if (!StringUtils.isEmpty(end)) { queryWrapper.le("create_time", end); }
-        queryWrapper.orderByDesc("create_time");
-
-        articleMapper.selectPage(articlePage, queryWrapper);
-
-        long total = articlePage.getTotal();
-        List<Article> records = articlePage.getRecords();
-
+        Page<Article> page = articleMapper.selectPage(articlePage, Wrappers.<Article>lambdaQuery()
+                .eq(!StringUtils.isEmpty(articleQueryVO.getAuthorId()), Article::getAuthorId, articleQueryVO.getAuthorId())
+                .like(!StringUtils.isEmpty(articleQueryVO.getTitle()), Article::getTitle, articleQueryVO.getTitle())
+                .ge(!StringUtils.isEmpty(articleQueryVO.getBegin()), Article::getCreateTime, articleQueryVO.getBegin())
+                .le(!StringUtils.isEmpty(articleQueryVO.getEnd()), Article::getCreateTime, articleQueryVO.getEnd())
+                .orderByDesc(Article::getUpdateTime));
         PageResult<Article> pageResult = new PageResult<>();
-        pageResult.setTotal(total);
-        pageResult.setRecords(records);
-
+        pageResult.setTotal(page.getTotal());
+        pageResult.setRecords(articlePage.getRecords());
         return pageResult;
     }
 

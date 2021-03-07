@@ -1,6 +1,7 @@
 package com.create.biz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.create.biz.service.LoginLogService;
@@ -21,22 +22,14 @@ import java.util.List;
 public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper,LoginLog> implements LoginLogService {
     @Override
     public PageResult<LoginLog> selectPage(long current, long limit, LoginLogQueryDTO logQueryDTO) {
-        Page<LoginLog> page = new Page<>(current,limit);
-        QueryWrapper<LoginLog> wrapper = new QueryWrapper<>();
-        String begin = logQueryDTO.getBegin();
-        String end = logQueryDTO.getEnd();
-        if (!StringUtils.isEmpty(begin)) { wrapper.ge("create_time", begin); }
-        if (!StringUtils.isEmpty(end)) { wrapper.le("create_time", end); }
-        wrapper.orderByDesc("create_time");
-        baseMapper.selectPage(page, wrapper);
-
-        long total = page.getTotal();
-        List<LoginLog> records = page.getRecords();
+        Page<LoginLog> logPage = new Page<>(current,limit);
+        Page<LoginLog> page = baseMapper.selectPage(logPage, Wrappers.<LoginLog>lambdaQuery()
+                .ge(!StringUtils.isEmpty(logQueryDTO.getBegin()), LoginLog::getCreateTime, logQueryDTO.getBegin())
+                .le(!StringUtils.isEmpty(logQueryDTO.getEnd()), LoginLog::getCreateTime, logQueryDTO.getEnd()));
 
         PageResult<LoginLog> pageResult = new PageResult<>();
-        pageResult.setTotal(total);
-        pageResult.setRecords(records);
-
+        pageResult.setTotal(page.getTotal());
+        pageResult.setRecords(page.getRecords());
         return pageResult;
     }
 }

@@ -34,6 +34,18 @@ import java.util.stream.Collectors;
 @CrossOrigin
 public class ArticleController {
 
+    @ApiOperation(value = "测试登录")
+    @PostMapping("/adminuser/login")
+    public R login(){
+        return R.ok().data("token","admin");
+    }
+
+    @ApiOperation(value = "测试登录信息")
+    @GetMapping("/adminuser/info")
+    public R info(){
+        return R.ok().data("roles","[admin]").data("name","admin").data("avatar","https://edu-929.oss-cn-beijing.aliyuncs.com/2021/02/04/845ea08910c047ff972abb6d3349164a15.png");
+    }
+
     @Resource
     private ArticleService articleService;
 
